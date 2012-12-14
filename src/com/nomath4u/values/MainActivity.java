@@ -13,8 +13,11 @@ public class MainActivity extends Activity {
 	
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
+	private Sensor mLightSensor;
 	private SensorEventListener mAccelerometerListener;
+	private SensorEventListener mLightSensorListener;
 	private TextView mTextViewAccelerometer;
+	private TextView mTextViewLight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,13 +25,16 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         
         mTextViewAccelerometer = (TextView) findViewById(R.id.text_accelerometer);
+        mTextViewLight = (TextView) findViewById(R.id.text_light);
         
         initListeners();
         
         // Get an instance of the SensorManager
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mLightSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         mSensorManager.registerListener(mAccelerometerListener, mAccelerometer,SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(mLightSensorListener, mLightSensor, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
@@ -51,5 +57,17 @@ public class MainActivity extends Activity {
     			
     		}
     	};
+    	mLightSensorListener = new SensorEventListener(){
+    		@Override
+    		public void onSensorChanged(SensorEvent event){
+    			float[] values2 = event.values;
+    			mTextViewLight.setText("Light Sensor: " + values2[0]);
+    		}
+    		
+    		@Override
+    		public void onAccuracyChanged(Sensor sensor, int accuracy){
+    		}
+    	};
+    		    	
     }
 }
