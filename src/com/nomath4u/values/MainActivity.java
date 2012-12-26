@@ -21,6 +21,8 @@ public class MainActivity extends Activity {
 	private ArrayList<SensorEventListener> mListOfSensorListeners = new ArrayList<SensorEventListener>();
 	private LinearLayout linearLayout;
 	private ArrayList<TextView> mTextViews = new ArrayList<TextView>();
+	private final boolean ON = true;
+	private final boolean OFF = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +44,28 @@ public class MainActivity extends Activity {
         deviceSensors = mSensorManager.getSensorList(Sensor.TYPE_ALL);
         
         
-        initListeners();
+        manageListeners(ON);
         registerViews();
         
         
+    }
+    
+    @Override
+    protected void onResume(){
+    	super.onResume();
+    	manageListeners(ON);
+    }
+    
+    @Override
+    protected void onPause(){
+    	super.onPause();
+    	manageListeners(OFF);
+    }
+    
+    @Override
+    protected void onDestroy(){
+    	super.onDestroy();
+    	manageListeners(OFF);
     }
 
     @Override
@@ -55,34 +75,41 @@ public class MainActivity extends Activity {
         return true;
     }
     
-    private void initListeners(){
+    private void manageListeners(boolean register){
     	//Fill List with Listeners
-    	
-    	for ( Sensor sensor : deviceSensors){
-    		final TextView tView = new TextView(this);
-    		 tView.setLayoutParams(new ViewGroup.LayoutParams(
-                     ViewGroup.LayoutParams.FILL_PARENT,
-                     ViewGroup.LayoutParams.WRAP_CONTENT));
-    		final Sensor thisSensor = sensor;
-    		SensorEventListener tmp = new SensorEventListener(){
-    			@Override
-    			public void onSensorChanged(SensorEvent event){
-    				float[] values = event.values;
-    				tView.setText(thisSensor.getName() + ": \n");
-    				for (float number : values){
-    					//Add each value to the text view
-    					tView.setText(tView.getText() + String.format("%.5g%n", number) + " ");
+    	if(register){
+    		for ( Sensor sensor : deviceSensors){
+    			final TextView tView = new TextView(this);
+    			tView.setLayoutParams(new ViewGroup.LayoutParams(
+    					ViewGroup.LayoutParams.MATCH_PARENT,
+    					ViewGroup.LayoutParams.WRAP_CONTENT));
+    			final Sensor thisSensor = sensor;
+    			SensorEventListener tmp = new SensorEventListener(){
+    				@Override
+    				public void onSensorChanged(SensorEvent event){
+    					float[] values = event.values;
+    					tView.setText(thisSensor.getName() + ": \n");
+    					for (float number : values){
+    						//Add each value to the text view
+    						tView.setText(tView.getText() + String.format("%.5g%n", number) + " ");
+    					}
     				}
-    			}
-    			@Override
-    			public void onAccuracyChanged(Sensor sensor, int accuracy){
+    				@Override
+    				public void onAccuracyChanged(Sensor sensor, int accuracy){
     				
-    			}
-    		};
-    	mSensorManager.registerListener(tmp,sensor,SensorManager.SENSOR_DELAY_UI);	
-    	mListOfSensorListeners.add(tmp);
-    	mTextViews.add(tView);
+    				}
+    			};
+    			mSensorManager.registerListener(tmp,sensor,SensorManager.SENSOR_DELAY_UI);	
+    			mListOfSensorListeners.add(tmp);
+    			mTextViews.add(tView);
     	
+    		}
+    	}
+    	else{
+    		for (SensorEventListener listener : mListOfSensorListeners){
+    			mSensorManager.unregisterListener(listener);
+    			
+    		}
     	}
     }
     
