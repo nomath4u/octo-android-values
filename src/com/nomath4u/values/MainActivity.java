@@ -14,8 +14,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import com.google.ads.*;
+
 public class MainActivity extends Activity {
 	
+	private AdView adView;
 	private SensorManager mSensorManager;
 	private List<Sensor> deviceSensors;
 	private ArrayList<SensorEventListener> mListOfSensorListeners = new ArrayList<SensorEventListener>();
@@ -29,8 +32,19 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-       
+        adView = new AdView(this, AdSize.BANNER, "a150f4a1207af4e");
         linearLayout = (LinearLayout)findViewById(R.id.stuffz);
+        
+        
+        AdRequest adRequest = new AdRequest();
+        // White-list the emulator and the test device to receive test ads.
+        adRequest.addTestDevice(AdRequest.TEST_EMULATOR); // Emulator
+        adRequest.addTestDevice("8BF2B0C6E393BA041BC521468BC8A5F8");        // Test Android Device
+ 	
+        // Initiate a generic request to load it with an ad.
+        adView.loadAd(adRequest);
+
+        
         
         
        
@@ -117,5 +131,8 @@ public class MainActivity extends Activity {
     	for(TextView view : mTextViews){
     		linearLayout.addView(view);
     	}
+    	linearLayout.addView(adView);
     }
 }
+
+
