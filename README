@@ -1,1 +1,1 @@
-This program displays a list of available sensors and at the moment displays values for an accelerometer, light sensor and the beginings of an orientation sensor.
+This program displays a list of all available sensors on the device and all values associated with that sensor.
