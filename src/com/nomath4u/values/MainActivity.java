@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -26,6 +27,7 @@ public class MainActivity extends Activity {
 	private List<Sensor> deviceSensors;
 	private ArrayList<SensorEventListener> mListOfSensorListeners = new ArrayList<SensorEventListener>();
 	private LinearLayout linearLayout;
+	private LinearLayout bigLayout;
 	private ArrayList<TextView> mTextViews = new ArrayList<TextView>();
 	private final boolean ON = true;
 	private final boolean OFF = false;
@@ -37,6 +39,7 @@ public class MainActivity extends Activity {
         
         adView = new AdView(this, AdSize.BANNER, "a150f4a1207af4e");
         linearLayout = (LinearLayout)findViewById(R.id.stuffz);
+        bigLayout = (LinearLayout)findViewById(R.id.stuffzbig);
         
         
         AdRequest adRequest = new AdRequest();
@@ -145,7 +148,7 @@ public class MainActivity extends Activity {
     	for(TextView view : mTextViews){
     		linearLayout.addView(view);
     	}
-    	linearLayout.addView(adView);
+    	bigLayout.addView(adView);
     }
     
     void showAbout(){
