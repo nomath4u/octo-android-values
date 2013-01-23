@@ -5,7 +5,10 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,10 +46,6 @@ public class MainActivity extends Activity {
  	
         // Initiate a generic request to load it with an ad.
         adView.loadAd(adRequest);
-
-        
-        
-        
        
         	 
         
@@ -87,6 +86,21 @@ public class MainActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.menu_about:
+                showAbout();
+                return true;
+            /*case R.id.help:
+                showHelp();
+                return true;*/
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     
     private void manageListeners(boolean register){
@@ -132,6 +146,15 @@ public class MainActivity extends Activity {
     		linearLayout.addView(view);
     	}
     	linearLayout.addView(adView);
+    }
+    
+    void showAbout(){
+    	AlertDialog builder = new AlertDialog.Builder(this).create();
+    	builder.setTitle("About");
+    	builder.setMessage("Sensor Values \n Created by: Christopher Harper \n 2013");
+    	builder.setCancelable(true);
+    	builder.setInverseBackgroundForced(true);
+    	builder.show();
     }
 }
 
