@@ -6,10 +6,12 @@ import java.util.List;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ public class MainActivity extends Activity {
 	private LinearLayout linearLayout;
 	private LinearLayout bigLayout;
 	private ArrayList<TextView> mTextViews = new ArrayList<TextView>();
+	private boolean started = true;
 	private final boolean ON = true;
 	private final boolean OFF = false;
 
@@ -62,6 +65,30 @@ public class MainActivity extends Activity {
         
         manageListeners(ON);
         registerViews();
+        
+        /*Dialog warningDialog = new Dialog(this); 
+        warningDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE); 
+        warningDialog.setContentView(getLayoutInflater().inflate(R.layout.button_layout 
+                , null)); 
+        warningDialog.show();*/
+        
+        if(started){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setInverseBackgroundForced(true);
+        builder.setMessage(R.string.warning_pop);
+        builder.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                            int which) {
+                    	started = false;
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+        }
         
         
     }
@@ -98,9 +125,9 @@ public class MainActivity extends Activity {
             case R.id.menu_about:
                 showAbout();
                 return true;
-            /*case R.id.help:
-                showHelp();
-                return true;*/
+            case R.id.intro_button:
+                //showHelp();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
