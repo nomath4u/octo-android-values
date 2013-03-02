@@ -1,19 +1,18 @@
 package com.nomath4u.values;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -128,6 +127,16 @@ public class MainActivity extends Activity {
             case R.id.intro_button:
                 //showHelp();
                 return true;
+            case R.id.contact_button:
+			Intent intent = null;
+			try {
+				intent = Intent.parseUri("mailto:harperc@onid.orst.edu", Intent.URI_INTENT_SCHEME);
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				intent.putExtra(android.content.Intent.EXTRA_SUBJECT, R.string.subject);
+            	startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -181,7 +190,7 @@ public class MainActivity extends Activity {
     void showAbout(){
     	AlertDialog builder = new AlertDialog.Builder(this).create();
     	builder.setTitle("About");
-    	builder.setMessage("Sensor Values \n Created by: Christopher Harper \n 2013");
+    	builder.setMessage("Sensor Values \n\nCreated by: Christopher Harper \n\nArtist: Pamela Kent \n\n2013");
     	builder.setCancelable(true);
     	builder.setInverseBackgroundForced(true);
     	builder.show();

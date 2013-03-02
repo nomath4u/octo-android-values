@@ -7,7 +7,8 @@
     <string name="sensors_list">List of available Sensors: </string>
     <string name="menu_about">About</string>
     <string name="cancel">Cancel</string>
+    <string name="contact_string">Contact</string>
     <string name="test">Test</string>
-	<string name="warning_pop">WARNING! This app will DRAIN your battery if kept in the forfront. Back out of it when you are done with it. \n 
-	    	It may also take a while to initialize all of your sensors so if there is lag at the beginning don\'t worry it will start.</string>
+    <string name="subject">Sensor Values Contact</string>
+	<string name="warning_pop">WARNING! This app will DRAIN your battery if kept in the forefront. Back out of it when you are done with it.\n\nIt may also take a while to initialize all of your sensors so if there is lag at the beginning, don\'t worry it will start.</string>
 </resources>
