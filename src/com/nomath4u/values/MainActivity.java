@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
         
         
         AdRequest adRequest = new AdRequest();
-        // White-list the emulator and the test device to receive test ads.
+        //White-list the emulator and the test device to receive test ads.
         adRequest.addTestDevice(AdRequest.TEST_EMULATOR); // Emulator
         adRequest.addTestDevice("8BF2B0C6E393BA041BC521468BC8A5F8");        // Test Android Device
  	
@@ -65,11 +65,7 @@ public class MainActivity extends Activity {
         manageListeners(ON);
         registerViews();
         
-        /*Dialog warningDialog = new Dialog(this); 
-        warningDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE); 
-        warningDialog.setContentView(getLayoutInflater().inflate(R.layout.button_layout 
-                , null)); 
-        warningDialog.show();*/
+      
         
         if(started){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -117,8 +113,8 @@ public class MainActivity extends Activity {
         return true;
     }
     
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    	@Override
+    	public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu_about:
@@ -142,7 +138,7 @@ public class MainActivity extends Activity {
         }
     }
     
-    private void manageListeners(boolean register){
+    private void manageListeners(boolean register){ //Problem in here
     	//Fill List with Listeners
     	if(register){
     		for ( Sensor sensor : deviceSensors){
@@ -154,19 +150,30 @@ public class MainActivity extends Activity {
     			SensorEventListener tmp = new SensorEventListener(){
     				@Override
     				public void onSensorChanged(SensorEvent event){
+    					/* attempt 1
+    					 tView.setText(thisSensor.getName() + ": \n" +
+    							Float.toString(event.values[0]) + "\n" +
+    							Float.toString(event.values[1]) + "\n" +
+    							Float.toString(event.values[2])
+    							);
+    					*/
+    					
+    					
+    					/* Attempt 2
     					float[] values = event.values;
     					tView.setText(thisSensor.getName() + ": \n");
-    					for (float number : values){
+    					for (Float number : values){
     						//Add each value to the text view
-    						tView.setText(tView.getText() + String.format("%.5g%n", number) + " ");
-    					}
+    						
+    						tView.setText(tView.getText() + String.valueOf(number) + "\n" + String.format("%.5g%n", number) + " ");
+    					}*/
     				}
     				@Override
     				public void onAccuracyChanged(Sensor sensor, int accuracy){
     				
     				}
     			};
-    			mSensorManager.registerListener(tmp,sensor,1000000);	
+    			mSensorManager.registerListener(tmp,sensor, 1000000000);	
     			mListOfSensorListeners.add(tmp);
     			mTextViews.add(tView);
     	
