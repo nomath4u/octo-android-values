@@ -146,6 +146,7 @@ public class MainActivity extends Activity {
     	//Fill List with Listeners
     	if(register){
     		for ( Sensor sensor : deviceSensors){
+    			//if(sensor.getType() != Sensor.TYPE_GYROSCOPE){
     			final TextView tView = new TextView(this);
     			tView.setLayoutParams(new ViewGroup.LayoutParams(
     					ViewGroup.LayoutParams.MATCH_PARENT,
@@ -181,10 +182,11 @@ public class MainActivity extends Activity {
     				
     				}
     			};
+    			
     			mSensorManager.registerListener(tmp,sensor, 1000000000);	
     			mListOfSensorListeners.add(tmp);
     			mTextViews.add(tView);
-    	
+    			//}
     		}
     	}
     	else{
