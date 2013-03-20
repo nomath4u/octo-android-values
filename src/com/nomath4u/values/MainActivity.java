@@ -33,6 +33,10 @@ public class MainActivity extends Activity {
 	private boolean started = true;
 	private final boolean ON = true;
 	private final boolean OFF = false;
+	private Float eventValone;
+	private Float eventValtwo;
+	private Float eventValthree;
+	
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,13 +154,17 @@ public class MainActivity extends Activity {
     			SensorEventListener tmp = new SensorEventListener(){
     				@Override
     				public void onSensorChanged(SensorEvent event){
-    					/* attempt 1
+    					// attempt 1
+    					eventValone = event.values[0];
+    					eventValtwo = event.values[1];
+    					eventValthree = event.values[2];
+    					 
     					 tView.setText(thisSensor.getName() + ": \n" +
-    							Float.toString(event.values[0]) + "\n" +
-    							Float.toString(event.values[1]) + "\n" +
-    							Float.toString(event.values[2])
+    							eventValone.toString() + "\n" +
+    							eventValtwo.toString() + "\n" +
+    							eventValthree.toString()
     							);
-    					*/
+    					
     					
     					
     					/* Attempt 2
