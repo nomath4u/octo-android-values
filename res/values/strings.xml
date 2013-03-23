@@ -11,6 +11,7 @@
     <string name="test">Test</string>
     <string name="subject">Sensor Values Contact</string>
     <string name="never_again">Never show this message again</string>
+    <string name="reset_string">Enable Warning</string>
 	<string name="warning_pop">WARNING! This app will DRAIN your battery if kept in the forefront. Back out of it when you are done with it.\n\nIf it begins to slow down or is slow from the beginning, try running the app again.</string>
 	
 	<color name="gray">#1F1F1F</color>

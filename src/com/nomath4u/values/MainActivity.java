@@ -9,12 +9,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -74,11 +76,15 @@ public class MainActivity extends Activity {
         manageListeners(ON);
         registerViews();
         
+        
+        //Get checkbox preference
+        SharedPreferences settings = getSharedPreferences("MyPrefsFile",0);
+        boolean checked = settings.getBoolean("dialogPop", true);
       
         
-        if(started){
+        if(started && checked){
         	View checkBoxView = View.inflate(this, R.layout.checkbox, null);
-        	CheckBox checkBox = (CheckBox) checkBoxView.findViewById(R.id.checkbox);
+        	final CheckBox checkBox = (CheckBox) checkBoxView.findViewById(R.id.checkbox);
         	checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
         	    @Override
@@ -99,6 +105,7 @@ public class MainActivity extends Activity {
                     public void onClick(DialogInterface dialog,
                             int which) {
                     	started = false;
+                    	checkCheckBox(checkBox);
                         dialog.dismiss();
                     }
                 });
@@ -154,6 +161,13 @@ public class MainActivity extends Activity {
 			}
 				intent.putExtra(android.content.Intent.EXTRA_SUBJECT, R.string.subject);
             	startActivity(intent);
+            case R.id.reset_button:
+            	SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
+            	SharedPreferences.Editor editor = settings.edit();
+            	editor.putBoolean("dialogPop", true);
+            	editor.commit();
+            	Toast toast = Toast.makeText(getApplicationContext(), "Warning will be displayed on next run", Toast.LENGTH_SHORT);
+            	toast.show();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -184,16 +198,6 @@ public class MainActivity extends Activity {
     							);
     					 tView.setTextColor(getResources().getColor(R.color.indiglo));
     					
-    					
-    					
-    					/* Attempt 2
-    					float[] values = event.values;
-    					tView.setText(thisSensor.getName() + ": \n");
-    					for (Float number : values){
-    						//Add each value to the text view
-    						
-    						tView.setText(tView.getText() + String.valueOf(number) + "\n" + String.format("%.5g%n", number) + " ");
-    					}*/
     				}
     				@Override
     				public void onAccuracyChanged(Sensor sensor, int accuracy){
@@ -229,6 +233,16 @@ public class MainActivity extends Activity {
     	builder.setCancelable(true);
     	builder.setInverseBackgroundForced(true);
     	builder.show();
+    }
+    
+    void checkCheckBox(CheckBox checkbox){
+    	if(checkbox.isChecked()){
+    		SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
+    		SharedPreferences.Editor editor = settings.edit();
+    		editor.putBoolean("dialogPop", false);
+    		editor.commit();
+    	}
+    	
     }
 }
 

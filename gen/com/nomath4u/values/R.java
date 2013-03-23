@@ -24,6 +24,7 @@ public final class R {
         public static final int intro_button=0x7f080004;
         public static final int intro_text=0x7f080003;
         public static final int menu_about=0x7f080006;
+        public static final int reset_button=0x7f080008;
         public static final int sensors_list=0x7f080002;
         public static final int stuffz=0x7f080001;
         public static final int stuffzbig=0x7f080000;
@@ -44,10 +45,11 @@ public final class R {
         public static final int menu_about=0x7f040004;
         public static final int menu_settings=0x7f040002;
         public static final int never_again=0x7f040009;
+        public static final int reset_string=0x7f04000a;
         public static final int sensors_list=0x7f040003;
         public static final int subject=0x7f040008;
         public static final int test=0x7f040007;
-        public static final int warning_pop=0x7f04000a;
+        public static final int warning_pop=0x7f04000b;
     }
     public static final class style {
         /** 
