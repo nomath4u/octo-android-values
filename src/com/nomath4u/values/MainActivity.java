@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -163,8 +164,9 @@ public class MainActivity extends Activity {
     					 tView.setText(thisSensor.getName() + ": \n" +
     							eventValone.toString() + "\n" +
     							eventValtwo.toString() + "\n" +
-    							eventValthree.toString()
+    							eventValthree.toString() +"\n\n" 
     							);
+    					 tView.setTextColor(getResources().getColor(R.color.indiglo));
     					
     					
     					
