@@ -19,10 +19,11 @@ public final class R {
         public static final int old_ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int contact_button=0x7f080006;
+        public static final int checkbox=0x7f080005;
+        public static final int contact_button=0x7f080007;
         public static final int intro_button=0x7f080004;
         public static final int intro_text=0x7f080003;
-        public static final int menu_about=0x7f080005;
+        public static final int menu_about=0x7f080006;
         public static final int sensors_list=0x7f080002;
         public static final int stuffz=0x7f080001;
         public static final int stuffzbig=0x7f080000;
@@ -30,6 +31,7 @@ public final class R {
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int button_layout=0x7f030001;
+        public static final int checkbox=0x7f030002;
     }
     public static final class menu {
         public static final int activity_main=0x7f070000;
@@ -41,10 +43,11 @@ public final class R {
         public static final int hello_world=0x7f040001;
         public static final int menu_about=0x7f040004;
         public static final int menu_settings=0x7f040002;
+        public static final int never_again=0x7f040009;
         public static final int sensors_list=0x7f040003;
         public static final int subject=0x7f040008;
         public static final int test=0x7f040007;
-        public static final int warning_pop=0x7f040009;
+        public static final int warning_pop=0x7f04000a;
     }
     public static final class style {
         /** 

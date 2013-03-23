@@ -11,7 +11,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.graphics.Color;
@@ -73,7 +77,19 @@ public class MainActivity extends Activity {
       
         
         if(started){
+        	View checkBoxView = View.inflate(this, R.layout.checkbox, null);
+        	CheckBox checkBox = (CheckBox) checkBoxView.findViewById(R.id.checkbox);
+        	checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+        	    @Override
+        	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+        	        // Save to shared preferences
+        	    }
+        	});
+        
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(checkBoxView);
         builder.setCancelable(true);
         builder.setInverseBackgroundForced(true);
         builder.setMessage(R.string.warning_pop);
