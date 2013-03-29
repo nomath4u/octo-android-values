@@ -20,7 +20,6 @@ import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -37,7 +36,6 @@ public class MainActivity extends Activity {
 	private LinearLayout linearLayout;
 	private LinearLayout bigLayout;
 	private ArrayList<TextView> mTextViews = new ArrayList<TextView>();
-	private boolean started = true;
 	private final boolean ON = true;
 	private final boolean OFF = false;
 	private Float eventValone;
@@ -82,7 +80,7 @@ public class MainActivity extends Activity {
         boolean checked = settings.getBoolean("dialogPop", true);
       
         
-        if(started && checked){
+        if(/*started &&*/ checked){
         	View checkBoxView = View.inflate(this, R.layout.checkbox, null);
         	final CheckBox checkBox = (CheckBox) checkBoxView.findViewById(R.id.checkbox);
         	checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -104,7 +102,7 @@ public class MainActivity extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog,
                             int which) {
-                    	started = false;
+                    	//started = false;
                     	checkCheckBox(checkBox);
                         dialog.dismiss();
                     }
@@ -112,6 +110,7 @@ public class MainActivity extends Activity {
         AlertDialog alert = builder.create();
         alert.show();
         }
+        //started = false;
         
         
     }
@@ -119,6 +118,12 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume(){
     	super.onResume();
+    	manageListeners(ON);
+    }
+    
+    @Override
+    protected void onRestart(){
+    	super.onRestart();
     	manageListeners(ON);
     }
     
@@ -161,6 +166,7 @@ public class MainActivity extends Activity {
 			}
 				intent.putExtra(android.content.Intent.EXTRA_SUBJECT, R.string.subject);
             	startActivity(intent);
+            	return true;
             case R.id.reset_button:
             	SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
             	SharedPreferences.Editor editor = settings.edit();
@@ -168,16 +174,16 @@ public class MainActivity extends Activity {
             	editor.commit();
             	Toast toast = Toast.makeText(getApplicationContext(), "Warning will be displayed on next run", Toast.LENGTH_SHORT);
             	toast.show();
+            	return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
     
-    private void manageListeners(boolean register){ //Problem in here
+    private void manageListeners(boolean register){
     	//Fill List with Listeners
     	if(register){
     		for ( Sensor sensor : deviceSensors){
-    			//if(sensor.getType() != Sensor.TYPE_GYROSCOPE){
     			final TextView tView = new TextView(this);
     			tView.setLayoutParams(new ViewGroup.LayoutParams(
     					ViewGroup.LayoutParams.MATCH_PARENT,
@@ -211,13 +217,41 @@ public class MainActivity extends Activity {
     			//}
     		}
     	}
-    	else{
-    		for (SensorEventListener listener : mListOfSensorListeners){
-    			mSensorManager.unregisterListener(listener);
-    			
-    		}
+    
+    else{
+    	for(SensorEventListener listener : mListOfSensorListeners){
+    		mSensorManager.unregisterListener(listener);
     	}
     }
+    }
+    void disableListeners(){
+    		for (SensorEventListener listener : mListOfSensorListeners){
+    			mSensorManager.unregisterListener(listener);
+    		}
+    		for (TextView tView: mTextViews){
+    			linearLayout.removeView(tView);
+    		}
+    }
+    	/*if	(register && !started){
+    		for (Sensor sensor : deviceSensors){
+    				SensorEventListener tmp = new SensorEventListener(){
+        				@Override
+        				public void onSensorChanged(SensorEvent event){
+        					// attempt 1
+        					eventValone = event.values[0];
+        					eventValtwo = event.values[1];
+        					eventValthree = event.values[2];
+        					
+        				}
+        				@Override
+        				public void onAccuracyChanged(Sensor sensor, int accuracy){
+        				
+        				}
+    				};
+    		}	
+    				mSensorManager.registerListener(tmp, sensor, 1000000000);
+    			
+    	}*/	
     
     void registerViews(){
     	for(TextView view : mTextViews){
