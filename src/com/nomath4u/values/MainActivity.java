@@ -41,6 +41,7 @@ public class MainActivity extends Activity {
 	private Float eventValone;
 	private Float eventValtwo;
 	private Float eventValthree;
+	private boolean adadd = false;
 	
 
     @Override
@@ -119,24 +120,29 @@ public class MainActivity extends Activity {
     protected void onResume(){
     	super.onResume();
     	manageListeners(ON);
+    	//registerViews();
     }
     
     @Override
     protected void onRestart(){
     	super.onRestart();
+
     	manageListeners(ON);
+    	registerViews();
     }
     
     @Override
     protected void onPause(){
     	super.onPause();
     	manageListeners(OFF);
+    	removeViews();
     }
     
     @Override
     protected void onDestroy(){
     	super.onDestroy();
     	manageListeners(OFF);
+    	removeViews();
     }
 
     @Override
@@ -212,12 +218,13 @@ public class MainActivity extends Activity {
     			};
     			
     			mSensorManager.registerListener(tmp,sensor, 1000000000);	
+    			
     			mListOfSensorListeners.add(tmp);
     			mTextViews.add(tView);
     			//}
     		}
     	}
-    
+    //Turn off the listeners
     else{
     	for(SensorEventListener listener : mListOfSensorListeners){
     		mSensorManager.unregisterListener(listener);
@@ -257,7 +264,17 @@ public class MainActivity extends Activity {
     	for(TextView view : mTextViews){
     		linearLayout.addView(view);
     	}
-    	bigLayout.addView(adView);
+    	if(!adadd){
+    		bigLayout.addView(adView);
+    		adadd = true;
+    	}
+    }
+    
+    void removeViews(){
+    	for(TextView view : mTextViews){
+    		linearLayout.removeView(view);
+    	}
+    	mTextViews.clear(); //So That they are double counted when re initializing
     }
     
     void showAbout(){
