@@ -119,8 +119,9 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume(){
     	super.onResume();
+    	removeViews();
     	manageListeners(ON);
-    	//registerViews();
+    	registerViews();
     }
     
     @Override
@@ -142,7 +143,7 @@ public class MainActivity extends Activity {
     protected void onDestroy(){
     	super.onDestroy();
     	manageListeners(OFF);
-    	removeViews();
+    	removeViews(); 
     }
 
     @Override
@@ -163,15 +164,15 @@ public class MainActivity extends Activity {
                 //showHelp();
                 return true;
             case R.id.contact_button:
-			Intent intent = null;
-			try {
-				intent = Intent.parseUri("mailto:harperc@onid.orst.edu", Intent.URI_INTENT_SCHEME);
-			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-				intent.putExtra(android.content.Intent.EXTRA_SUBJECT, R.string.subject);
-            	startActivity(intent);
+			
+            	Intent intent = new Intent(Intent.ACTION_SEND);
+            	intent.setType("text/html");
+            	intent.putExtra(android.content.Intent.EXTRA_EMAIL,new String[] { "harperc@onid.orst.edu" });
+            	intent.putExtra(Intent.EXTRA_SUBJECT, "Sensor Values Information");
+            	intent.putExtra(Intent.EXTRA_TEXT, "In regards to Sensor Values...");
+
+            	startActivity(Intent.createChooser(intent, "Send Email"));
+			
             	return true;
             case R.id.reset_button:
             	SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
@@ -239,30 +240,13 @@ public class MainActivity extends Activity {
     			linearLayout.removeView(tView);
     		}
     }
-    	/*if	(register && !started){
-    		for (Sensor sensor : deviceSensors){
-    				SensorEventListener tmp = new SensorEventListener(){
-        				@Override
-        				public void onSensorChanged(SensorEvent event){
-        					// attempt 1
-        					eventValone = event.values[0];
-        					eventValtwo = event.values[1];
-        					eventValthree = event.values[2];
-        					
-        				}
-        				@Override
-        				public void onAccuracyChanged(Sensor sensor, int accuracy){
-        				
-        				}
-    				};
-    		}	
-    				mSensorManager.registerListener(tmp, sensor, 1000000000);
-    			
-    	}*/	
+    	
     
     void registerViews(){
-    	for(TextView view : mTextViews){
-    		linearLayout.addView(view);
+    	if(mTextViews.size() !=0){
+    		for(TextView view : mTextViews){
+    			linearLayout.addView(view);
+    		}
     	}
     	if(!adadd){
     		bigLayout.addView(adView);
