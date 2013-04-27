@@ -1,6 +1,5 @@
 package com.nomath4u.values;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
