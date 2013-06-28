@@ -217,7 +217,7 @@ public class MainActivity extends Activity {
     				}
     			};
     			
-    			mSensorManager.registerListener(tmp,sensor, 1000000000);	
+    			mSensorManager.registerListener(tmp,sensor, SensorManager.SENSOR_DELAY_UI);
     			
     			mListOfSensorListeners.add(tmp);
     			mTextViews.add(tView);
