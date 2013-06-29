@@ -263,9 +263,9 @@ public class MainActivity extends Activity {
     void showAbout(){
     	AlertDialog builder = new AlertDialog.Builder(this).create();
     	builder.setTitle("About");
-    	builder.setMessage("Sensor Values \n\nCreated by: Christopher Harper \n\nArtist: Pamela Kent \n\n2013");
+    	builder.setMessage("Sensor Values \n\nCreated by: Christopher Harper \nArtist: Pamela Kent \n2013");
     	builder.setCancelable(true);
-    	builder.setInverseBackgroundForced(true);
+    	//builder.setInverseBackgroundForced(true);
     	builder.show();
     }
     
