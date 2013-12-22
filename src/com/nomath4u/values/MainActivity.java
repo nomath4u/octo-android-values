@@ -3,6 +3,7 @@ package com.nomath4u.values;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -37,9 +38,7 @@ public class MainActivity extends Activity {
 	private ArrayList<TextView> mTextViews = new ArrayList<TextView>();
 	private final boolean ON = true;
 	private final boolean OFF = false;
-	private Float eventValone;
-	private Float eventValtwo;
-	private Float eventValthree;
+	private ArrayList<Float> eventVal = new ArrayList<Float>();
 	private boolean adadd = false;
 	
 
@@ -178,8 +177,8 @@ public class MainActivity extends Activity {
             	SharedPreferences.Editor editor = settings.edit();
             	editor.putBoolean("dialogPop", true);
             	editor.commit();
-            	Toast toast = Toast.makeText(getApplicationContext(), "Warning will be displayed on next run", Toast.LENGTH_SHORT);
-            	toast.show();
+            	//Toast toast = Toast.makeText(getApplicationContext(), "Warning will be displayed on next run", Toast.LENGTH_SHORT);
+            	//toast.show();
             	return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -190,7 +189,9 @@ public class MainActivity extends Activity {
     	//Fill List with Listeners
     	if(register){
     		for ( Sensor sensor : deviceSensors){
-    			final TextView tView = new TextView(this);
+                //if(sensor.getType() != (Sensor.TYPE_SIGNIFICANT_MOTION)){
+
+                final TextView tView = new TextView(this);
     			tView.setLayoutParams(new ViewGroup.LayoutParams(
     					ViewGroup.LayoutParams.MATCH_PARENT,
     					ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -198,28 +199,33 @@ public class MainActivity extends Activity {
     			SensorEventListener tmp = new SensorEventListener(){
     				@Override
     				public void onSensorChanged(SensorEvent event){
-    					// attempt 1
-    					eventValone = event.values[0];
-    					eventValtwo = event.values[1];
-    					eventValthree = event.values[2];
-    					 
-    					 tView.setText(thisSensor.getName() + ": \n" +
-    							eventValone.toString() + "\n" +
-    							eventValtwo.toString() + "\n" +
-    							eventValthree.toString() +"\n\n" 
-    							);
-    					 tView.setTextColor(getResources().getColor(R.color.indiglo));
-    					
+                        for(int i = 0; i < event.values.length; i++){
+    					    eventVal.add(event.values[i]);
+                        }
+//
+                        tView.setText(thisSensor.getName() + ":\n");
+    					for(int j = 0; j < eventVal.size(); j++){
+                                    tView.setText(tView.getText() + eventVal.get(j).toString() + "\n");
+                        }
+
+
+                        tView.setText(tView.getText() + "\n");
+                        tView.setTextColor(getResources().getColor(R.color.indiglo));
+    					eventVal.clear();
     				}
     				@Override
     				public void onAccuracyChanged(Sensor sensor, int accuracy){
     				
     				}
     			};
-    			
-    			mSensorManager.registerListener(tmp,sensor, SensorManager.SENSOR_DELAY_UI);
-    			
-    			mListOfSensorListeners.add(tmp);
+
+                try {
+                    mSensorManager.registerListener(tmp,sensor, SensorManager.SENSOR_DELAY_UI);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                mListOfSensorListeners.add(tmp);
     			mTextViews.add(tView);
     			//}
     		}
