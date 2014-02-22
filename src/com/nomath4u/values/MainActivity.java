@@ -40,6 +40,7 @@ public class MainActivity extends Activity {
 	private final boolean OFF = false;
 	private ArrayList<Float> eventVal = new ArrayList<Float>();
 	private boolean adadd = false;
+    private int counter = 0;
 	
 
     @Override
@@ -202,15 +203,21 @@ public class MainActivity extends Activity {
                         for(int i = 0; i < event.values.length; i++){
     					    eventVal.add(event.values[i]);
                         }
-//
-                        tView.setText(thisSensor.getName() + ":\n");
-    					for(int j = 0; j < eventVal.size(); j++){
-                                    tView.setText(tView.getText() + eventVal.get(j).toString() + "\n");
+                        if(counter == 3){ //So it only updates the text every 100 times.
+                            tView.setText(thisSensor.getName() + ":\n");
+    					    for(int j = 0; j < eventVal.size(); j++){
+                                       tView.setText(tView.getText() + eventVal.get(j).toString() + "\n");
+
+                            }
+                            tView.setText(tView.getText() + "\n");
+                            tView.setTextColor(getResources().getColor(R.color.indiglo));
+                            counter = 0;
+                        }
+                        else{
+                            counter++;
                         }
 
 
-                        tView.setText(tView.getText() + "\n");
-                        tView.setTextColor(getResources().getColor(R.color.indiglo));
     					eventVal.clear();
     				}
     				@Override
@@ -220,7 +227,7 @@ public class MainActivity extends Activity {
     			};
 
                 try {
-                    mSensorManager.registerListener(tmp,sensor, SensorManager.SENSOR_DELAY_UI);
+                    mSensorManager.registerListener(tmp,sensor,SensorManager.SENSOR_DELAY_NORMAL); /*SensorManager.SENSOR_DELAY_UI*/
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
